@@ -1,0 +1,27 @@
+<div class="p-4">
+  <button (click)="disabled = !disabled">State - {{disabled ? 'Enable' : 'Disable'}}</button>
+
+
+  <div class="mb-4">
+    <span class="ml-4">NgModel Title: {{title}}</span><br /><br />
+    <ivu-textfield-wrapper-v1 [label]="'Label'">
+      <input placeholder="Enter your name" [(ngModel)]="title" [disabled]="disabled">
+    </ivu-textfield-wrapper-v1>
+  </div>
+  <div>
+    <form class="mb-6" [formGroup]="fb">
+      <span class="ml-4">ReactiveForms (FormControlName) Title: {{fb.controls['title'].value}}</span><br /><br />
+      <ivu-textfield-wrapper-v1 [label]="'Label'">
+        <input placeholder="Enter your name" [formControlName]="'title'" [disabled]="disabled">
+      </ivu-textfield-wrapper-v1>
+    </form>
+    <span class="ml-4">ReactiveForms (FormControl) Title: {{formControl.value}}</span><br /><br />
+    <ivu-textfield-wrapper-v1 [label]="'Label'">
+      <input placeholder="Enter your name" [formControl]="formControl" [disabled]="disabled">
+    </ivu-textfield-wrapper-v1>
+  </div>
+
+
+
+
+</div>

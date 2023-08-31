@@ -3,6 +3,13 @@
 
 
   <div class="mb-4">
+    <span class="ml-4">HTML Title: {{title}}</span><br /><br />
+    <ivu-textfield-wrapper-v1 [label]="'Label'" [(value)]="title">
+      <input placeholder="Enter your name" [disabled]="disabled">
+    </ivu-textfield-wrapper-v1>
+  </div>
+
+  <div class="mb-4">
     <span class="ml-4">NgModel Title: {{title}}</span><br /><br />
     <ivu-textfield-wrapper-v1 [label]="'Label'">
       <input placeholder="Enter your name" [(ngModel)]="title" [disabled]="disabled">

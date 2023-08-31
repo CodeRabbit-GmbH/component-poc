@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  Output,
   ViewEncapsulation,
   inject,
 } from "@angular/core";
@@ -20,11 +21,6 @@ import { ValueChangedHookDirective } from "./value-changed-hook.directive";
   hostDirectives: [ValueChangedHookDirective],
 })
 export class TextfieldWrapperV1Component {
-  protected readonly valueChangedHookDirective = inject(
-    ValueChangedHookDirective,
-    { self: true }
-  );
-
   @Input() label: string | undefined;
   @Input() hideLabel: boolean | undefined;
   @Input() showTextCounter: boolean | undefined = true;
@@ -32,6 +28,19 @@ export class TextfieldWrapperV1Component {
   @Input() maxLength = 100;
   @Input() validationMessage: string | undefined;
   @Input() uiState: undefined | "error" | "success";
+
+  protected readonly valueChangedHookDirective = inject(
+    ValueChangedHookDirective,
+    { self: true }
+  );
+
+  @Output()
+  valueChange = this.valueChangedHookDirective.valueChange;
+
+  @Input()
+  set value(value: string) {
+    this.valueChangedHookDirective.value = value;
+  }
 
   protected get showClearIcon(): boolean {
     return (
@@ -41,7 +50,7 @@ export class TextfieldWrapperV1Component {
   }
 
   constructor() {
-    this.valueChangedHookDirective.valueChanges
+    this.valueChangedHookDirective.valueChange
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {
         this.verifyInput(value);

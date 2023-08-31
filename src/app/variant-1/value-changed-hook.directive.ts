@@ -5,12 +5,13 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
+  Input,
   Output,
   inject,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgModel, FormControlName, FormControlDirective } from "@angular/forms";
-import { BehaviorSubject, tap } from "rxjs";
+import { BehaviorSubject, Observable, from, fromEvent, map, tap } from "rxjs";
 
 @Directive({
   selector: "[ivuValueChangedHook]",
@@ -32,7 +33,17 @@ export class ValueChangedHookDirective implements AfterContentInit {
 
   private valueChangesSubject = new BehaviorSubject<string>("");
   @Output()
-  valueChanges = this.valueChangesSubject.asObservable();
+  valueChange = this.valueChangesSubject.asObservable();
+
+  @Input()
+  set value(value: string) {
+    if (this.input === undefined) {
+      return;
+    }
+    this.input.value = value;
+    this.valueChangesSubject.next(value);
+    this.verifyInput(value);
+  }
 
   private elementRef = inject(ElementRef);
   private input: HTMLInputElement | undefined;
@@ -84,10 +95,23 @@ export class ValueChangedHookDirective implements AfterContentInit {
    * We need to use the valueChanges$ observable of the NgModel, FormControl or FormControlName.
    */
   private hookIntoValueChanges() {
-    const valueChanges =
-      this.ngModel?.valueChanges ||
-      this.formControl?.valueChanges ||
-      this.formControlName?.valueChanges;
+    let valueChanges: Observable<unknown> | null | undefined = null;
+    if (
+      this.ngModel === undefined &&
+      this.formControl === undefined &&
+      this.formControlName === undefined &&
+      this.input !== undefined
+    ) {
+      valueChanges = fromEvent(this.input, "keyup").pipe(
+        map((event) => (event.target as HTMLInputElement).value)
+      );
+    } else {
+      valueChanges =
+        this.ngModel?.valueChanges ||
+        this.formControl?.valueChanges ||
+        this.formControlName?.valueChanges;
+    }
+
     valueChanges
       ?.pipe(
         this.takeUntilDestroyed$,
@@ -107,6 +131,7 @@ export class ValueChangedHookDirective implements AfterContentInit {
   clearContent() {
     if (this.input) {
       this.input.value = "";
+      this.valueChangesSubject.next("");
       this.input.dispatchEvent(new Event("input"));
     }
   }

@@ -1,0 +1,15 @@
+<div [class]="uiState">
+  <label *ngIf="!hideLabel" class="ivu-label-v1" [class.disabled]="valueChangedHookDirective.disabled">{{ label
+    }}</label>
+  <div class="relative mt-0">
+    <ng-content select="input"></ng-content>
+    <div *ngIf="showClearIcon" (click)="valueChangedHookDirective.clearContent()" class="ivu-clear-icon">
+      X
+    </div>
+
+    <span *ngIf="showTextCounter" class="absolute right-0 text-xs pr-0.5 text-gray-400">{{ textCounter }}</span>
+  </div>
+  <p *ngIf="validationMessage" class="text-sm text-red-600">
+    {{ validationMessage }}
+  </p>
+</div>

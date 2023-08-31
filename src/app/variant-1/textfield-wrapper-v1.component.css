@@ -1,0 +1,47 @@
+.ivu-clear-icon {
+  @apply absolute
+    inset-y-0
+    right-0
+    flex
+    items-center
+    pr-3
+    cursor-pointer
+    select-none;
+}
+.ivu-label-v1 {
+  @apply block
+    text-sm
+    font-medium
+    leading-6
+    text-gray-900
+    select-none;
+}
+.ivu-label-v1.disabled {
+  @apply text-gray-400;
+}
+.ivu-input-v1 {
+  @apply block
+    w-full
+    border
+    border-gray-700
+    py-1.5
+    px-3
+    text-gray-900
+    bg-gray-50
+    placeholder:text-gray-400;
+}
+.ivu-input-v1:hover {
+  @apply bg-blue-100;
+}
+.ivu-input-v1:disabled,
+input[ng-reflect-is-disabled="true"] {
+  @apply bg-gray-300 text-gray-400 border-gray-400 select-none;
+}
+div.error label,
+div.error .ivu-input-v1:not(.ivu-textfield-disabled) {
+  @apply border-red-600 text-red-600;
+}
+div.success label,
+div.success .ivu-input-v1:not(.ivu-textfield-disabled) {
+  @apply border-green-600 text-green-600;
+}

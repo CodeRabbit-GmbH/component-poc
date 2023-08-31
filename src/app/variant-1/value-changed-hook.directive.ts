@@ -5,6 +5,7 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
+  EventEmitter,
   Input,
   Output,
   inject,
@@ -31,17 +32,18 @@ export class ValueChangedHookDirective implements AfterContentInit {
   @ContentChild(FormControlDirective)
   private formControl: FormControlDirective | undefined;
 
-  private valueChangesSubject = new BehaviorSubject<string>("");
   @Output()
-  valueChange = this.valueChangesSubject.asObservable();
+  valueChange = new EventEmitter<string>();
 
+  private _value : string | undefined;
   @Input()
   set value(value: string) {
+    this._value = value;
     if (this.input === undefined) {
       return;
     }
     this.input.value = value;
-    this.valueChangesSubject.next(value);
+    this.valueChange.next(value);
     this.verifyInput(value);
   }
 
@@ -64,6 +66,10 @@ export class ValueChangedHookDirective implements AfterContentInit {
     if (this.input) {
       this.input.classList.add("ivu-input-v1");
 
+      if(this._value && this.input.value !== this._value) {
+        this.input.value = this._value;
+      }
+
       this.disabled = this.input.disabled;
       this.inputHasValue = this.input.value !== "";
 
@@ -71,7 +77,8 @@ export class ValueChangedHookDirective implements AfterContentInit {
       // For the initial value we need to use the value of the input element.
       // Only valid for ReactiveForms, TemplateDrivenForms (ngModel) are delayed by one tick
       // so the will call the valueChanges$ observable with their initial value.
-      this.valueChangesSubject.next(this.input.value);
+
+
       this.verifyInput(this.input.value);
       this.hookIntoValueChanges();
 
@@ -117,7 +124,7 @@ export class ValueChangedHookDirective implements AfterContentInit {
         this.takeUntilDestroyed$,
         tap((value) => {
           if (typeof value === "string") {
-            this.valueChangesSubject.next(value);
+            this.valueChange.next(value);
           }
         })
       )
@@ -131,7 +138,7 @@ export class ValueChangedHookDirective implements AfterContentInit {
   clearContent() {
     if (this.input) {
       this.input.value = "";
-      this.valueChangesSubject.next("");
+      this.valueChange.next("");
       this.input.dispatchEvent(new Event("input"));
     }
   }

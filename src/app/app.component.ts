@@ -8,6 +8,7 @@ import { FormBuilder, FormControl } from "@angular/forms";
 })
 export class AppComponent {
   title = "ngModel";
+  htmlTitle = "htmlTitle";
   disabled = false;
 
   fb = inject(FormBuilder).nonNullable.group({

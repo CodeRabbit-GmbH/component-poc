@@ -1,5 +1,5 @@
-<div [class]="uiState">
-  <label *ngIf="!hideLabel" class="ivu-label-v1" [class.disabled]="valueChangedHookDirective.disabled">{{ label
+<div [class]="uiState" [class.disabled]="valueChangedHookDirective.disabled">
+  <label *ngIf="!hideLabel" class="ivu-label-v1">{{ label
     }}</label>
   <div class="relative mt-0">
     <ng-content select="input"></ng-content>
@@ -7,9 +7,9 @@
       X
     </div>
 
-    <span *ngIf="showTextCounter" class="absolute right-0 text-xs pr-0.5 text-gray-400">{{ textCounter }}</span>
+    <span *ngIf="showTextCounter" class="ivu-text-counter ">{{ textCounter }}</span>
   </div>
-  <p *ngIf="validationMessage" class="text-sm text-red-600">
+  <p *ngIf="validationMessage" class="ivu-validation-message">
     {{ validationMessage }}
   </p>
 </div>

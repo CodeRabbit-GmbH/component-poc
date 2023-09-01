@@ -4,7 +4,13 @@
 
   <div class="mb-4">
     <span class="ml-4">HTML Title: {{htmlTitle}}</span><br /><br />
-    <ivu-textfield-wrapper-v1 [label]="'Label'" [(value)]="htmlTitle">
+    <ivu-textfield-wrapper-v1 [validationMessage]="'Some text'" [label]="'Label'" [(value)]="htmlTitle">
+      <input placeholder="Enter your name" [disabled]="disabled">
+    </ivu-textfield-wrapper-v1>
+    <ivu-textfield-wrapper-v1 [uiState]="'error'" [validationMessage]="'Some text'" [label]="'Label'" [(value)]="htmlTitle">
+      <input placeholder="Enter your name" [disabled]="disabled">
+    </ivu-textfield-wrapper-v1>
+    <ivu-textfield-wrapper-v1 [uiState]="'success'" [validationMessage]="'Some text'" [label]="'Label'" [(value)]="htmlTitle">
       <input placeholder="Enter your name" [disabled]="disabled">
     </ivu-textfield-wrapper-v1>
   </div>

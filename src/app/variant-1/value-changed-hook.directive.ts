@@ -76,9 +76,8 @@ export class ValueChangedHookDirective implements AfterContentInit {
       // We need to hook into the value changes of the input element.
       // For the initial value we need to use the value of the input element.
       // Only valid for ReactiveForms, TemplateDrivenForms (ngModel) are delayed by one tick
-      // so the will call the valueChanges$ observable with their initial value.
-
-
+      // so the will call the valueChanges with their initial value.
+      this.valueChange.next(this.input.value);
       this.verifyInput(this.input.value);
       this.hookIntoValueChanges();
 

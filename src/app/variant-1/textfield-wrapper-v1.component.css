@@ -16,7 +16,7 @@
     text-gray-900
     select-none;
 }
-.ivu-label-v1.disabled {
+div.disabled .ivu-label-v1 {
   @apply text-gray-400;
 }
 .ivu-input-v1 {
@@ -44,4 +44,23 @@ div.error .ivu-input-v1:not(.ivu-textfield-disabled) {
 div.success label,
 div.success .ivu-input-v1:not(.ivu-textfield-disabled) {
   @apply border-green-600 text-green-600;
+}
+.ivu-validation-message {
+  @apply text-xs;
+}
+
+div.error .ivu-validation-message {
+  @apply text-red-600;
+}
+
+div.success .ivu-validation-message {
+  @apply text-green-600;
+}
+
+div.disabled .ivu-validation-message {
+  @apply text-gray-400;
+}
+
+.ivu-text-counter {
+  @apply absolute right-0 text-xs pr-0.5 text-gray-400;
 }
